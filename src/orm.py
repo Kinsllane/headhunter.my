@@ -1,3 +1,5 @@
+from types import new_class
+
 from sqlalchemy import select
 
 from db import engine, sessions, Base, Workload
@@ -25,6 +27,16 @@ class SyncOrm:
             result = session.execute(select(WorkersOrm))
             workers = result.scalars().all()
             print(f"{workers=}")
+
+    @staticmethod
+    def update_worker(worker_id: int = 2, new_username: str = "Misha"):
+        with sessions() as session:
+            worker = session.get(WorkersOrm, worker_id)
+            worker.username = new_username
+            session.commit()
+
+
+
 
 
 
